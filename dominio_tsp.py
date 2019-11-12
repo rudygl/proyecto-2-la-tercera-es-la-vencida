@@ -1,3 +1,5 @@
+import csv
+
 from dominio import Dominio
 
 
@@ -44,9 +46,44 @@ class DominioTSP(Dominio):
         Salidas:
             Una instancia de DominioTSP correctamente inicializada.
         """
+        super(DominioTSP, self).__init__()
 
-        # Pendiente: implementar este constructor
+        filas_csv = self._abrir_csv(ciudades_rutacsv)
+        self._nombre_ciudades = filas_csv[0]  # tomamos la primera linea del csv, la cual contiene los nombres de todas las ciudades
+        self._nombre_ciudades = self._nombre_ciudades[1:]  # quitamos la primera posición ya que es el nombre de la columna 'km/min'l
+        cant_ciudades = len(self._nombre_ciudades)  # para inicializar la matriz
+        self._matriz_ciudades = [[0 for col in range(cant_ciudades)] for row in range(cant_ciudades)]
+        self._crear_matriz(cant_ciudades, filas_csv)
+        self._ciudad_inicio = ciudad_inicio
         pass
+
+    def _abrir_csv(self, ruta_csv):
+        """
+        Crea un arreglo con las lineas dentro de un csv
+        :param ruta_csv: es un string que indica la ruta donde se encuentra el archivo csv
+        :return: una lista con todas las lineas del archivo csv
+        """
+        filas = []
+        with open(ruta_csv, 'r') as archivo_csv:
+            reader_csv = csv.reader(archivo_csv, delimiter=',')
+            for fila in reader_csv:
+                filas.append(fila)
+        return filas
+
+    def _crear_matriz(self, cant_ciudades, filas_csv):
+        """
+        Este método llena la matriz de ciudades con los datos dados en el csv
+        :param cant_ciudades: total de ciudades encontrados dentro del csv
+        :param filas_csv: lineas(filas) con los datos del csv
+        :return:
+        """
+        # llenamos la matriz con los datos del archivo csv, cada posición i y j representa la ciudad y la ciudad con la que está conectada
+        for i in range(0, cant_ciudades):
+            pesos_i = filas_csv[i + 1]
+            pesos_i = pesos_i[1:]  # quitamos el nombre de la ciudad
+            for j in range(0, cant_ciudades):
+                self._matriz_ciudades[i][j] = pesos_i[
+                    j]  # guardamos la distancia que hay entre la ciudad i actual y la ciudad j
 
     def validar(self, sol):
         """Valida que la solución dada cumple con los requisitos del problema.
