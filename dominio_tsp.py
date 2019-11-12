@@ -1,4 +1,5 @@
 import csv
+import random
 
 from dominio import Dominio
 
@@ -118,14 +119,14 @@ class DominioTSP(Dominio):
         """
 
         # Validamos que el tamaño de la solución sea menor a la cantidad total de ciudades
-        if(len(sol) >= self._cant_ciudades-1):
+        if(len(sol) >= self._cant_ciudades):
             return False
         # Validamos que los números que representan a las ciudades sean menores que la cantidad total de ciudades,
         # además, que no existan ciudades repetidas y que la ciudad de inicio/fin no esté contemplada dentro de la
         # solución
         ciudades = set()
         for ciudad in sol:
-            if(ciudad >= self._cant_ciudades or ciudad in ciudades or ciudad == self._ciudad_inicio):
+            if(ciudad >= self._cant_ciudades-1 or ciudad in ciudades or ciudad == self._ciudad_inicio):
                 return False
             ciudades.add(ciudad)
         # solo sí cumple con todas las restricciones
@@ -166,9 +167,20 @@ class DominioTSP(Dominio):
         Salidas:
         (list) Una lista que representa una solución válida para esta instancia del vendedor viajero
         """
+        sol = []
+        indices = set()
+        # hacemos un recorrido de o hasta n-1 (tamaño de una solución)
+        for i in range(0, self._cant_ciudades-1):
+            # generamos un número random entre 0 y n-1
+            i_random = random.randint(0, self._cant_ciudades-1)
+            # comprobamos que el índice generado aleatoriamente no sea la ciudad de
+            # inicio y tampoco ya haya sido utilizado
+            while(i_random == self._ciudad_inicio or i_random in indices):
+                i_random = random.randint(0, self._cant_ciudades-1)
+            sol.append(i_random)
+            indices.add(i_random)
 
-        # Pendiente: implementar este método
-        pass
+        return sol
 
     def fcosto(self, sol):
         """Calcula el costo asociado con una solución dada.
