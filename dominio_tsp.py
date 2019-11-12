@@ -49,17 +49,25 @@ class DominioTSP(Dominio):
         super(DominioTSP, self).__init__()
 
         filas_csv = self._abrir_csv(ciudades_rutacsv)
-        self._nombre_ciudades = filas_csv[0]  # tomamos la primera linea del csv, la cual contiene los nombres de todas las ciudades
-        self._nombre_ciudades = self._nombre_ciudades[1:]  # quitamos la primera posición ya que es el nombre de la columna 'km/min'
-        self._cant_ciudades = len(self._nombre_ciudades)  # para inicializar la matriz
+        # tomamos la primera linea del csv, la cual contiene los nombres de todas las ciudades
+        self._nombre_ciudades = filas_csv[0]
+        # quitamos la primera posición ya que es el nombre de la columna 'km/min'
+        self._nombre_ciudades = self._nombre_ciudades[1:]
+        # para inicializar la matriz con un tamaño de nxn
+        self._cant_ciudades = len(self._nombre_ciudades)
         self._dict_ciudades = {}
         self._crear_dict_ciudades()
         self._matriz_ciudades = [[0 for col in range(self._cant_ciudades)] for row in range(self._cant_ciudades)]
-        self._crear_matriz(filas_csv)
+        self._llenar_matriz(filas_csv)
         self._ciudad_inicio = self._dict_ciudades[ciudad_inicio]
         pass
 
     def _crear_dict_ciudades(self):
+        """
+        Método que llena el diccionario de ciudades donde la key es el nombre de la ciudad
+        y el valor el indice (0...n) al que corresponde.
+        :return:
+        """
         for i in range(0, self._cant_ciudades):
             self._dict_ciudades[self._nombre_ciudades[i]] = i
 
@@ -76,7 +84,7 @@ class DominioTSP(Dominio):
                 filas.append(fila)
         return filas
 
-    def _crear_matriz(self, filas_csv):
+    def _llenar_matriz(self, filas_csv):
         """
         Este método llena la matriz de ciudades con los datos dados en el csv
         :param cant_ciudades: total de ciudades encontrados dentro del csv
@@ -86,9 +94,11 @@ class DominioTSP(Dominio):
         # llenamos la matriz con los datos del archivo csv, cada posición i y j representa la ciudad y la ciudad con la que está conectada
         for i in range(0, self._cant_ciudades):
             pesos_i = filas_csv[i + 1]
-            pesos_i = pesos_i[1:]  # quitamos el nombre de la ciudad
+            # quitamos el nombre de la ciudad
+            pesos_i = pesos_i[1:]
             for j in range(0, self._cant_ciudades):
-                self._matriz_ciudades[i][j] = pesos_i[j]  # guardamos la distancia que hay entre la ciudad i actual y la ciudad j
+                # guardamos la distancia que hay entre la ciudad i actual y la ciudad j
+                self._matriz_ciudades[i][j] = float(pesos_i[j])
 
     def validar(self, sol):
         """Valida que la solución dada cumple con los requisitos del problema.
@@ -108,11 +118,11 @@ class DominioTSP(Dominio):
         """
 
         # Validamos que el tamaño de la solución sea menor a la cantidad total de ciudades
-        if(len(sol) != self._cant_ciudades-1):
+        if(len(sol) >= self._cant_ciudades-1):
             return False
-        # Validamos que los números que representan a las ciudades sean menores que la cantidad total de ciudades, además,
-        # que no existan ciudades repetidas
-        # y que la ciudad de inicio/fin no esté contemplada dentro de la solución
+        # Validamos que los números que representan a las ciudades sean menores que la cantidad total de ciudades,
+        # además, que no existan ciudades repetidas y que la ciudad de inicio/fin no esté contemplada dentro de la
+        # solución
         ciudades = set()
         for ciudad in sol:
             if(ciudad >= self._cant_ciudades or ciudad in ciudades or ciudad == self._ciudad_inicio):
@@ -136,12 +146,14 @@ class DominioTSP(Dominio):
         (str) Hilera en el formato mencionado anteriormente.
         """
         ciudades_a_mostrar = []
-        ciudades_a_mostrar.append(self._nombre_ciudades[self._ciudad_inicio]) #agregamos la ciudad de inicio a la hilera
+        # agregamos la ciudad de inicio a la hilera
+        ciudades_a_mostrar.append(self._nombre_ciudades[self._ciudad_inicio])
         #añadimos todas las demás ciudades dentro de la solución
         for i in range(0, len(sol)):
             ciudades_a_mostrar.append(self._nombre_ciudades[sol[i]])
-        ciudades_a_mostrar.append(self._nombre_ciudades[self._ciudad_inicio]) #volvemos a agregar la ciudad de inicio/fin
-        #pegamos todas las ciudades separadas por un ' -> ' como el formato mencionado
+        # volvemos a agregar la ciudad de inicio/fin
+        ciudades_a_mostrar.append(self._nombre_ciudades[self._ciudad_inicio])
+        # pegamos todas las ciudades separadas por un ' -> ' como el formato mencionado
         hilera_final = ' -> '.join(ciudades_a_mostrar)
         return hilera_final
 
@@ -169,8 +181,17 @@ class DominioTSP(Dominio):
         (float) valor del costo asociado con la solución
         """
 
-        # Pendiente: implementar este método
-        pass
+        sol_costo = 0
+        # agregamos la ciudad de inicio para obtener el costo de la solución
+        curr_ciudad = self._ciudad_inicio
+        # llegamos hasta n con el for sumando la ciudad de fin(inicio)
+        for i in range(0, len(sol)+1):
+            if(i == len(sol)):
+                sol_costo += self._matriz_ciudades[curr_ciudad][self._ciudad_inicio]
+            else:
+                sol_costo += self._matriz_ciudades[curr_ciudad][sol[i]]
+                curr_ciudad = sol[i]
+        return sol_costo
 
     def vecino(self, sol):
         """Calcula una solución vecina a partir de una solución dada.
