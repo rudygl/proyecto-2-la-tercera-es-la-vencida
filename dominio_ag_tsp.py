@@ -40,9 +40,11 @@ class DominioAGTSP(DominioAG, DominioTSP):
         Salidas:
             Una instancia de DominioAGTSP correctamente inicializada.
         """
-        
+        self.dominioTSP = DominioTSP(ciudades_rutacsv, ciudad_inicio)
+        SolucionesAG = []
+		
         # Pendiente: implementar este constructor
-        pass
+		pass
 
     def generar_n(self, n):
         """Construye aleatoriamente una lista de listas que representa n 
@@ -56,6 +58,13 @@ class DominioAGTSP(DominioAG, DominioTSP):
         (list) Lista que contiene n listas, cada una representando
         una posible solución al problema modelado por el objeto de dominio.
         """
+        
+        x=0
+		
+        while(x<=n):
+		
+            temporal = dominioTSP.generar()
+            self.SolucionesAG.append(temporal)
         
         # Pendiente: implementar este método
         pass
