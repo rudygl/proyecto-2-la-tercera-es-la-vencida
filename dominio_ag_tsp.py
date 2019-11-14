@@ -44,7 +44,7 @@ class DominioAGTSP(DominioAG, DominioTSP):
         SolucionesAG = []
 		
         # Pendiente: implementar este constructor
-		pass
+        pass
 
     def generar_n(self, n):
         """Construye aleatoriamente una lista de listas que representa n 
@@ -82,7 +82,39 @@ class DominioAGTSP(DominioAG, DominioTSP):
         Salidas:
         (estructura de datos) Una nueva solución producto del cruzamiento entre las soluciones A y B
         """
-
+        hijo = []
+        n = len(sol_a)
+		
+        while(n>0):
+			
+            hijo+=[sol_a[n-1]]
+            hijo+=[sol_b[n-1]]
+            n-=1
+		
+		
+        bandera = 0
+        n=len(hijo)
+        resultado = []
+		
+        for x in range (0, n):
+            j=x+1
+            while(j< n):
+			
+                if(hijo[j]==hijo[x]):
+					
+                    j = n
+                    bandera = 1
+                else:
+					
+                    j+=1
+            if(bandera == 1):
+                bandera = 0
+			
+            else:
+				
+                resultado += [hijo[x]]
+		
+        return resultado
         # Pendiente: implementar este método
         pass
 
