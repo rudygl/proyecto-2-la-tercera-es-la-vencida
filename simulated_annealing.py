@@ -1,7 +1,7 @@
 import math
 import random
 
-def optimizar(domino, temperatura = 10e32, tasa_enfriamiento = 0.95):
+def optimizar(dominio, temperatura = 10e32, tasa_enfriamiento = 0.95):
 
     solucionA = dominio.generar()
     costoA = dominio.fcosto(solucionA)
