@@ -1,4 +1,5 @@
 import csv
+import math
 import random
 
 from dominio import Dominio
@@ -119,18 +120,18 @@ class DominioTSP(Dominio):
         """
 
         # Validamos que el tamaño de la solución sea menor a la cantidad total de ciudades
-        if(len(sol) > self._cant_ciudades-1):
+        if (len(sol) != self._cant_ciudades - 1):
             return False
 
         # Validamos que no existan ciudades repetidas y que la ciudad de inicio/fin no esté contemplada dentro de la
         # solución
         sol_set = set(sol)
-        if(len(sol_set) != len(sol) or self._ciudad_inicio in sol_set):
+        if (len(sol_set) != len(sol) or self._ciudad_inicio in sol_set):
             return False
 
         # Validamos que los números que representan a las ciudades sean menores que la cantidad total de ciudades
         for ciudad in sol:
-            if(ciudad > self._cant_ciudades-1):
+            if (ciudad > self._cant_ciudades - 1):
                 return False
 
         # solo sí cumple con todas las restricciones
@@ -153,7 +154,7 @@ class DominioTSP(Dominio):
         ciudades_a_mostrar = []
         # agregamos la ciudad de inicio a la hilera
         ciudades_a_mostrar.append(self._nombre_ciudades[self._ciudad_inicio])
-        #añadimos todas las demás ciudades dentro de la solución
+        # añadimos todas las demás ciudades dentro de la solución
         for i in range(0, len(sol)):
             ciudades_a_mostrar.append(self._nombre_ciudades[sol[i]])
         # volvemos a agregar la ciudad de inicio/fin
@@ -174,7 +175,7 @@ class DominioTSP(Dominio):
         sol = []
         # hacemos un recorrido de o hasta n (tamaño de una solución)
         for i in range(0, self._cant_ciudades):
-            if(i != self._ciudad_inicio):
+            if (i != self._ciudad_inicio):
                 sol.append(i)
         random.shuffle(sol)
         return sol
@@ -217,6 +218,22 @@ class DominioTSP(Dominio):
         Salidas:
         (list) Solución vecina
         """
+        sol_vecino = sol[:]
+        mitad_cant_ciudades = math.floor((self._cant_ciudades / 4) - 1)
+        i_random1 = random.randint(0, self._cant_ciudades - 1)
+        i_random2 = random.randint(0, self._cant_ciudades - 1)
+        if (i_random1 > i_random2):
+            i_random1, i_random2 = i_random2, i_random1
 
-        # Pendiente: implementar este método
-        pass
+        while i_random2 - i_random1 >= mitad_cant_ciudades or i_random2 - i_random1 == 0:
+            i_random2 = random.randint(0, self._cant_ciudades - 1)
+            if (i_random1 > i_random2):
+                i_random1, i_random2 = i_random2, i_random1
+
+        reverse_part = sol_vecino[i_random1:i_random2 + 1]
+        reverse_part.reverse()
+        sol_vecino_tmp = sol_vecino[i_random2 + 1:]
+        sol_vecino = sol_vecino[0:i_random1]
+        sol_vecino += reverse_part + sol_vecino_tmp
+
+        return sol_vecino
