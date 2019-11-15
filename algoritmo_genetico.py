@@ -37,14 +37,17 @@ def optimizar(dominio, tam_pobl, porc_elite, prob_mut, repeticiones):
 		sorted(tuplas, key = lambda t:t[1])
 		num_padres = math.floor(abs(poblacion) * porc_elite)
 		num_hijos = (abs(poblacion)) - num_padres
-		sig_gen(poblacion[0:num_padres])
+		sig_gen = poblacion[0:num_padres]
 		descendencia = 0
 		
 		while num_hijos > 0:
 			randm1, randm2 = randint(1,tam_pobl)
-			padreA = sig_gen[randm1]
 			
-			while randm1 != randm2:	
+			if randm1 == randm2:
+				randm1 += 1
+			
+			while randm1 != randm2:
+				padreA = sig_gen[randm1]	
 				padreB = sig_gen[randm2]
 				hijo = dominio.cruzar(padreA, padreB)
 				p = randint(0,1)
@@ -61,4 +64,3 @@ def optimizar(dominio, tam_pobl, porc_elite, prob_mut, repeticiones):
 		
 		repeticiones = repeticiones-1
 		
-	
