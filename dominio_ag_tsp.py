@@ -2,6 +2,7 @@ import random
 
 from dominio_ag import DominioAG
 from dominio_tsp import DominioTSP
+from random import randint
 
 class DominioAGTSP(DominioAG, DominioTSP):
     """
@@ -42,10 +43,10 @@ class DominioAGTSP(DominioAG, DominioTSP):
         Salidas:
             Una instancia de DominioAGTSP correctamente inicializada.
         """
+        super(DominioAGTSP, self).__init__()
         self.dominioTSP = DominioTSP(ciudades_rutacsv, ciudad_inicio)
        
 		
-        # Pendiente: implementar este constructor
         
 
     def generar_n(self, n):
@@ -63,7 +64,7 @@ class DominioAGTSP(DominioAG, DominioTSP):
         SolucionesAG = []
         
 		
-        for i in range (0,n)
+        for i in range (0,n):
 		
             temporal = dominioTSP.generar()
             SolucionesAG.append(temporal)
