@@ -1,3 +1,5 @@
+import random
+
 from dominio_ag import DominioAG
 from dominio_tsp import DominioTSP
 
@@ -130,6 +132,13 @@ class DominioAGTSP(DominioAG, DominioTSP):
         (estructura de datos) Una nueva solución que refleja un ligero cambio con respecto 
         a la solución dada por parámetro
         """
+        largo = len(sol)
+        x = randint(1,largo)-1
+        y = randint(1,largo)-1
+        temporal = sol[x]
+        sol[x] = sol[y]
+        sol[y] = temporal
+        return sol
 
         # Pendiente: implementar este método
         pass
