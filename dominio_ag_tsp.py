@@ -46,7 +46,7 @@ class DominioAGTSP(DominioAG, DominioTSP):
        
 		
         # Pendiente: implementar este constructor
-        pass
+        
 
     def generar_n(self, n):
         """Construye aleatoriamente una lista de listas que representa n 
@@ -61,9 +61,9 @@ class DominioAGTSP(DominioAG, DominioTSP):
         una posible solución al problema modelado por el objeto de dominio.
         """
         SolucionesAG = []
-        x=0
+        
 		
-        while(x<=n):
+        for i in range (0,n)
 		
             temporal = dominioTSP.generar()
             SolucionesAG.append(temporal)
