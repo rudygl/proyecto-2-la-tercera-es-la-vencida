@@ -4,6 +4,7 @@ from dominio_ag import DominioAG
 from dominio_tsp import DominioTSP
 from random import randint
 
+
 class DominioAGTSP(DominioAG, DominioTSP):
     """
     Representa el objeto de dominio que conoce los detalles de implementación y modelamiento
@@ -26,7 +27,7 @@ class DominioAGTSP(DominioAG, DominioTSP):
         Produce una nueva solución aplicando un ligero cambio a la solución dada por
         parámetro.
     """
-
+    
     def __init__(self, ciudades_rutacsv, ciudad_inicio):
         """Construye un objeto de modelo de dominio para una instancia
         específica del problema del vendedor viajero para ser resuelto
@@ -43,14 +44,11 @@ class DominioAGTSP(DominioAG, DominioTSP):
         Salidas:
             Una instancia de DominioAGTSP correctamente inicializada.
         """
-        super(DominioAGTSP, self).__init__()
+        super(DominioAGTSP, self).__init__(ciudades_rutacsv, ciudad_inicio)
         self.dominioTSP = DominioTSP(ciudades_rutacsv, ciudad_inicio)
-       
-		
-        
-
+    
     def generar_n(self, n):
-        """Construye aleatoriamente una lista de listas que representa n 
+        """Construye aleatoriamente una lista de listas que representa n
         posibles soluciones al problema.
 
         Entradas:
@@ -63,15 +61,12 @@ class DominioAGTSP(DominioAG, DominioTSP):
         """
         SolucionesAG = []
         
-		
-        for i in range (0,n):
-		
-            temporal = dominioTSP.generar()
+        for i in range(0, n):
+            temporal = self.dominioTSP.generar()
             SolucionesAG.append(temporal)
         
- 
         return SolucionesAG
-
+    
     def cruzar(self, sol_a, sol_b):
         """Produce una nueva posible solución cruzando las dos soluciones dadas por parámetro.
 
@@ -87,59 +82,52 @@ class DominioAGTSP(DominioAG, DominioTSP):
         """
         hijo = []
         n = len(sol_a)
-		
-        while(n>0):
-			
-            hijo+=[sol_a[n-1]]
-            hijo+=[sol_b[n-1]]
-            n-=1
-		
-		
+        
+        while (n > 0):
+            hijo += [sol_a[n - 1]]
+            hijo += [sol_b[n - 1]]
+            n -= 1
+        
         bandera = 0
-        n=len(hijo)
+        n = len(hijo)
         resultado = []
-		
-        for x in range (0, n):
-            j=x+1
-            while(j< n):
-			
-                if(hijo[j]==hijo[x]):
-					
+        
+        for x in range(0, n):
+            j = x + 1
+            while (j < n):
+                
+                if (hijo[j] == hijo[x]):
+                    
                     j = n
                     bandera = 1
                 else:
-					
-                    j+=1
-            if(bandera == 1):
+                    
+                    j += 1
+            if (bandera == 1):
                 bandera = 0
-			
+            
             else:
-				
+                
                 resultado += [hijo[x]]
-		
+        
         return resultado
-     
-       
-
+    
     def mutar(self, sol):
         """Produce una nueva solución aplicando un ligero cambio a la solución dada por
         parámetro.
-
+        
         Entradas:
         sol (estructura de datos)
             La solución a mutar.
         
         Salidas:
-        (estructura de datos) Una nueva solución que refleja un ligero cambio con respecto 
+        (estructura de datos) Una nueva solución que refleja un ligero cambio con respecto
         a la solución dada por parámetro
         """
         largo = len(sol)
-        x = randint(1,largo)-1
-        y = randint(1,largo)-1
+        x = randint(1, largo) - 1
+        y = randint(1, largo) - 1
         temporal = sol[x]
         sol[x] = sol[y]
         sol[y] = temporal
         return sol
-
-       
-       
