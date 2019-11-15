@@ -43,7 +43,7 @@ class DominioAGTSP(DominioAG, DominioTSP):
             Una instancia de DominioAGTSP correctamente inicializada.
         """
         self.dominioTSP = DominioTSP(ciudades_rutacsv, ciudad_inicio)
-        SolucionesAG = []
+       
 		
         # Pendiente: implementar este constructor
         pass
@@ -60,16 +60,16 @@ class DominioAGTSP(DominioAG, DominioTSP):
         (list) Lista que contiene n listas, cada una representando
         una posible solución al problema modelado por el objeto de dominio.
         """
-        
+        SolucionesAG = []
         x=0
 		
         while(x<=n):
 		
             temporal = dominioTSP.generar()
-            self.SolucionesAG.append(temporal)
+            SolucionesAG.append(temporal)
         
-        # Pendiente: implementar este método
-        pass
+ 
+        return SolucionesAG
 
     def cruzar(self, sol_a, sol_b):
         """Produce una nueva posible solución cruzando las dos soluciones dadas por parámetro.
@@ -117,8 +117,8 @@ class DominioAGTSP(DominioAG, DominioTSP):
                 resultado += [hijo[x]]
 		
         return resultado
-        # Pendiente: implementar este método
-        pass
+     
+       
 
     def mutar(self, sol):
         """Produce una nueva solución aplicando un ligero cambio a la solución dada por
@@ -140,5 +140,5 @@ class DominioAGTSP(DominioAG, DominioTSP):
         sol[y] = temporal
         return sol
 
-        # Pendiente: implementar este método
-        pass
+       
+       
