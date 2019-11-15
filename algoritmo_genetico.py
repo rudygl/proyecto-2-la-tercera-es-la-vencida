@@ -2,11 +2,11 @@ import math
 from random import randint, uniform,random
 
 
-def optimizar(dominio, tam_pobl, porc_elite, prob_mut, reps):
-    """Algoritmo genético para optimización estocástica.
+def optimizar(dominio, tam_pobl, porc_elite, prob_mut, repeticiones):
+	"""Algoritmo genético para optimización estocástica.
 
-    Entradas:
-    dominio (DominioAG)
+	Entradas:
+	dominio (DominioAG)
         Un objeto que modela el dominio del problema que se quiere aproximar.
     
     tam_pobl (int)
@@ -24,40 +24,41 @@ def optimizar(dominio, tam_pobl, porc_elite, prob_mut, reps):
     Salidas:
         (estructura de datos) Estructura de datos según el dominio, que representa una
         aproximación a la mejor solución al problema.
-    """
+	"""
     
-    #poblacion = dominio.generar(tam_pobl)
+	poblacion = dominio.generar(tam_pobl)
     
-    while reps > 0:
+	while repeticiones > 0:
+		
+		tuplas = []
 		for sol in poblacion:
-			#sol.aptitud = dominio.fcosto(sol) 
+			tuplas.append((sol, dominio.fcosto(sol))) 
 			
-		Ordenar(poblacion, llave = aptitud)
+		sorted(tuplas, key = lambda t:t[1])
 		num_padres = math.floor(abs(poblacion) * porc_elite)
-		num_hijos = (abs(poblacion) - num_padres
+		num_hijos = (abs(poblacion)) - num_padres
 		sig_gen(poblacion[0:num_padres])
 		descendencia = 0
 		
 		while num_hijos > 0:
-			randm = randint(1,tam_pobl)
-			padreA = sig_gen[randm]
-			#while randm1 != randm2
+			randm1, randm2 = randint(1,tam_pobl)
+			padreA = sig_gen[randm1]
 			
-			padreB = sig_gen[randm]
-			hijo = dominio.cruzar(padreA, padreB)
-			p = randint(0,1)
-			
-			if p <= prob_mut:
-				hijo = dominio.mutar(hijo)
+			while randm1 != randm2:	
+				padreB = sig_gen[randm2]
+				hijo = dominio.cruzar(padreA, padreB)
+				p = randint(0,1)
 				
-			descendencia.append(hijo)
-			
-			num_hijos = num_hijos-1
+				#p probabilidad
+				if p <= prob_mut:
+					hijo = dominio.mutar(hijo)
+				
+				descendencia.append(hijo)
+				num_hijos = num_hijos-1
 		
 		sig_gen += descendencia	
 		poblacion = sig_gen
 		
 		repeticiones = repeticiones-1
 		
-    # Pendiente: implementar este método
-    pass
+		
