@@ -61,4 +61,4 @@ def optimizar(dominio, tam_pobl, porc_elite, prob_mut, repeticiones):
 		
 		repeticiones = repeticiones-1
 		
-		
+	
