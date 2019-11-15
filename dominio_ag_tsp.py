@@ -124,10 +124,12 @@ class DominioAGTSP(DominioAG, DominioTSP):
         (estructura de datos) Una nueva solución que refleja un ligero cambio con respecto
         a la solución dada por parámetro
         """
-        largo = len(sol)
+        mutada = sol[:]
+        largo = len(mutada)
         x = randint(1, largo) - 1
         y = randint(1, largo) - 1
-        temporal = sol[x]
-        sol[x] = sol[y]
-        sol[y] = temporal
-        return sol
+        while(x==y):
+            y = randint(1, largo) -1
+        mutada[x],mutada[y] = mutada[y],mutada[x]
+        
+        return mutada
