@@ -219,14 +219,14 @@ class DominioTSP(Dominio):
         (list) Solución vecina
         """
         vecino = sol[:]
-        ran1 = random.randint(0, self._cant_ciudades - 1)
-        ran2 = random.randint(0, self._cant_ciudades - 1)
+        ran1 = random.randint(0, len(sol)-1)
+        ran2 = random.randint(0, len(sol)-1)
 
         while ran2 == ran1:
-            ran2 = random.randint(0, self._cant_ciudades - 1)
+            ran2 = random.randint(0, len(sol)-1)
 
         if (ran1 > ran2):
-            ran1, ran2 = ran2, ran1
+            ran1,ran2 = ran2,ran1
             
         reverse_part = vecino[ran1:ran2 + 1]
         reverse_part.reverse()

@@ -2,25 +2,6 @@ import math
 import random
 
 def optimizar(dominio, temperatura = 10e32, tasa_enfriamiento = 0.95):
-
-    solucionA = dominio.generar()
-    costoA = dominio.fcosto(solucionA)
-
-    while (temperatura > 0.01):
-
-        solucionB = dominio.vecino(solucionA)
-        costoB = dominio.fcosto(solucionB)
-        p = math.exp(-abs(costoB - costoA)/temperatura)
-        pAzar = random.randint(0, 1)
-
-        if (costoB < costoA) or pAzar <= p:
-            costoA = costoB
-            solucionA = solucionB
-
-    temperatura = temperatura * tasa_enfriamiento
-
-    return solucionA
-
     """Algoritmo de optimización estocástica simulated annealing.
     Entradas:
     dominio (Dominio)
@@ -34,6 +15,20 @@ def optimizar(dominio, temperatura = 10e32, tasa_enfriamiento = 0.95):
         (estructura de datos) Estructura de datos según el dominio, que representa una
         aproximación a la mejor solución al problema.
     """
+    sol = dominio.generar()
+    costo_sol = dominio.fcosto(sol)
 
-    # Pendiente: implementar esta función
-    pass
+    while (temperatura > 0.01):
+
+        vecino = dominio.vecino(sol)
+        costo_vecino = dominio.fcosto(vecino)
+        p = math.exp(-abs(costo_vecino - costo_sol)/temperatura)
+        Pazar = random.uniform(0, 1)
+
+        if (costo_vecino < costo_sol) or Pazar <= p:
+            sol = vecino
+            costo_sol = costo_vecino
+
+        temperatura = temperatura * tasa_enfriamiento
+
+    return sol
