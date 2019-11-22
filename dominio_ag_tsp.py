@@ -90,6 +90,8 @@ class DominioAGTSP(DominioAG, DominioTSP):
         for i in segundo_padre:
             if i not in hijo:
                 hijo.append(i)
+        
+        return hijo
     
     def mutar(self, sol):
         """Produce una nueva solución aplicando un ligero cambio a la solución dada por
