@@ -43,9 +43,7 @@ def optimizar(dominio, tam_pobl, porc_elite, prob_mut, repeticiones):
 		
 		while num_hijos > 0:
 			ran1 = randint(1, len(sig_gen)-1)
-			ran2 = randint(1, len(sig_gen)-1)
-			while(ran1 == ran2):ran2 = randint(1, len(sig_gen)-1)
-			
+			ran2 = randint(1, len(sig_gen)-1)			
 			padreA = sig_gen[ran1]
 			padreB = sig_gen[ran2]
 			hijo = dominio.cruzar(padreA, padreB)
