@@ -80,37 +80,16 @@ class DominioAGTSP(DominioAG, DominioTSP):
         Salidas:
         (estructura de datos) Una nueva solución producto del cruzamiento entre las soluciones A y B
         """
-        hijo = []
-        n = len(sol_a)
-        
-        while (n > 0):
-            hijo += [sol_a[n - 1]]
-            hijo += [sol_b[n - 1]]
-            n -= 1
-        
-        bandera = 0
-        n = len(hijo)
-        resultado = []
-        
-        for x in range(0, n):
-            j = x + 1
-            while (j < n):
-                
-                if (hijo[j] == hijo[x]):
-                    
-                    j = n
-                    bandera = 1
-                else:
-                    
-                    j += 1
-            if (bandera == 1):
-                bandera = 0
+        if(self.dominioTSP.fcosto(sol_a) < self.dominioTSP.fcosto(sol_b)):
+            hijo = sol_a[:(len(sol_a) - 1) // 2]
+            segundo_padre = sol_b
+        else:
+            hijo = sol_b[:(len(sol_b) - 1) // 2]
+            segundo_padre = sol_a
             
-            else:
-                
-                resultado += [hijo[x]]
-        
-        return resultado
+        for i in segundo_padre:
+            if i not in hijo:
+                hijo.append(i)
     
     def mutar(self, sol):
         """Produce una nueva solución aplicando un ligero cambio a la solución dada por
