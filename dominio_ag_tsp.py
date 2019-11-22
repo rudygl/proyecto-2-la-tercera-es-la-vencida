@@ -126,10 +126,10 @@ class DominioAGTSP(DominioAG, DominioTSP):
         """
         mutada = sol[:]
         largo = len(mutada)
-        x = randint(1, largo) - 1
-        y = randint(1, largo) - 1
+        x = randint(0, largo) - 1
+        y = randint(0, largo) - 1
         while(x==y):
-            y = randint(1, largo) -1
+            y = randint(0, largo) -1
         mutada[x],mutada[y] = mutada[y],mutada[x]
         
         return mutada
