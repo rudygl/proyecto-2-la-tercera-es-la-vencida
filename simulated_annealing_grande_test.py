@@ -7,6 +7,6 @@ from dominio_tsp import DominioTSP
 class PruebaSimulatedAnnealing(unittest.TestCase):
 
     def test_optimizar(self):
-        dominio = DominioTSP('datos/ciudades_cr_pruebas.csv', 'Alajuela')
+        dominio = DominioTSP('datos/ciudades_cr.csv', 'Alajuela')
         sol = optimizar(dominio)
         self.assertTrue(dominio.validar(sol)) 
